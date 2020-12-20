@@ -25,289 +25,214 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 public class PracticaPSP1 extends JFrame
 {
-private static final long serialVersionUID = 1L;
-private JPanel contentPane;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 
-public static void main(String[] args)
-{
-EventQueue.invokeLater(new Runnable() {
-
-public void run() {
-try {
-PracticaPSP1 frame = new PracticaPSP1();
-frame.setVisible(true);
-} catch (Exception e) {
-e.printStackTrace();
-}
-}
-});
-}
-
-
-public PracticaPSP1()
-{
-this.setTitle("Práctica PSP 1");
-setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-setBounds(430, 150, 900, 600);
-
-contentPane = new JPanel();
-contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-setContentPane(contentPane);
-contentPane.setLayout(null);
-
-JTextArea textArea1 = new JTextArea();
-textArea1.setEditable(true);
-textArea1.setBounds(46, 90, 300, 450);
-
-JScrollPane scrollPane = new JScrollPane(textArea1); 
-
-scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-
-
-JLabel texto = new JLabel("Procesos activos");
-texto.setBounds(400, 270, 140, 30);
-
-JTextField textField = new JTextField();
-textField.setBounds(46, 60, 180, 23);
-
-
-
-DefaultListModel<String> listModel;
-listModel = new DefaultListModel<String>();
-
-
-JList<String> list = new JList<String>(listModel);
-list.setBounds(400, 300, 340, 200);
-
-JButton bEjecutar = new JButton("Ejecutar");
-JButton bFinalizar = new JButton("Finalizar");
-JButton bBombero = new JButton("Parque De Bomberos");
-JButton bArticulos = new JButton("Artículos y tickets");
-JButton bPaint = new JButton("Paint");
-JButton bNotas = new JButton("Notas");
-bNotas.setBounds(590, 20, 200, 40);
-bPaint.setBounds(590, 80, 200, 40);
-bArticulos.setBounds(590, 140, 200, 40);
-bBombero.setBounds(590, 200, 200, 40);
-bEjecutar.setBounds(246, 60, 100, 23);
-bFinalizar.setBounds(745, 300, 100, 60);
-
-
-//JScrollPane scroll = new JScrollPane(textArea1);
-//textArea1.setEditable(true);
-//scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-
-//contentPane.add(scroll);
-
-contentPane.add(bNotas);
-contentPane.add(bPaint);
-contentPane.add(bBombero);
-contentPane.add(bArticulos);
-contentPane.add(bFinalizar);
-contentPane.add(bEjecutar);
-contentPane.add(textField);
-contentPane.add(texto);
-contentPane.add(list);
-contentPane.add(textArea1);
-Runtime runtime = Runtime.getRuntime();
-
-bEjecutar.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	String text=textField.getText();
-	try
+	public static void main(String[] args)
 	{
-	Process process = runtime.exec(text);
-	// Flujo de entrada(padre) para la salida estándar (hijo)
-	InputStream is = process.getInputStream();
-	// Flujo de lectura para esa entrada
-	InputStreamReader isr = new InputStreamReader(is);
-	
-	// Buffer para leer línea a línea
-	BufferedReader br = new BufferedReader(isr);
-	String line;
-	while ((line = br.readLine()) != null)
-	{
-	
-		textArea1.append(line+"\n");
-	}
-	is.close();
-	}
-	catch (IOException e1)
-	{
-	System.err.println("Introduzca algún comando");
-	System.exit(-1);
-	}
-}
-});
-
-
-bNotas.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	try {
-		Runtime.getRuntime().exec("notepad.exe");
-		listModel.addElement("Notas");
-		bNotas.setEnabled(false);
-		list.setSelectedValue("Notas",true);
-	} catch (IOException e1) {
-		
-		e1.printStackTrace();
-	}
-}
-});
-
-bPaint.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	try {
-		Runtime.getRuntime().exec("mspaint.exe");
-		listModel.addElement("Paint");
-		bPaint.setEnabled(false);
-		list.setSelectedValue("Paint",true);
-	} catch (IOException e1) {
-		
-		e1.printStackTrace();
-	}
-}
-});
-
-
-
-bArticulos.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	try {
-		Process proceso = runtime.exec("java -jar \"C:\\Users\\migue\\Desktop\\VentanaPrincipal.jar");
-		
-
-		listModel.addElement("Artículos");
-		list.setSelectedValue("Artículos",true);
-		bArticulos.setEnabled(false);
-		
-		bFinalizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String selected = list.getSelectedValue().toString();
-				
-				list.setSelectedValue(0,true);
-				if (selected.equals("Artículos"))
-				{
-				proceso.destroy();
-				bArticulos.setEnabled(true);
-				int index = list.getSelectedIndex();
-		 		listModel.remove(index);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PracticaPSP1 frame = new PracticaPSP1();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-			});
-		
-		
-	} catch (IOException e1) {
-		e1.printStackTrace();
+		});
 	}
-}
-});
+	public PracticaPSP1()
+	{
+		this.setTitle("Práctica PSP 1");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(430, 150, 900, 600);
 
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 
-bBombero.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	try {
-		Process proceso =runtime.exec("java -jar \"C:\\Users\\migue\\Desktop\\MenuPrincipal.jar");
-		listModel.addElement("Parque de Bomberos");
-		list.setSelectedValue("Parque de Bomberos",true);
-		bBombero.setEnabled(false);
-		bFinalizar.addActionListener(new ActionListener() {
+		JTextArea textArea1 = new JTextArea();
+		textArea1.setEditable(true);
+		textArea1.setBounds(46, 90, 300, 450);
+		JLabel texto = new JLabel("Procesos activos");
+		texto.setBounds(400, 270, 140, 30);
+
+		JTextField textField = new JTextField();
+		textField.setBounds(46, 60, 180, 23);
+
+		DefaultListModel<String> listModel;
+		listModel = new DefaultListModel<String>();
+		JList<String> list = new JList<String>(listModel);
+		list.setBounds(400, 300, 340, 200);
+
+		JButton bEjecutar = new JButton("Ejecutar");
+		JButton bFinalizar = new JButton("Finalizar");
+		JButton bBombero = new JButton("Parque De Bomberos");
+		JButton bArticulos = new JButton("Artículos y tickets");
+		JButton bPaint = new JButton("Paint");
+		JButton bNotas = new JButton("Notas");
+		bNotas.setBounds(590, 20, 200, 40);
+		bPaint.setBounds(590, 80, 200, 40);
+		bArticulos.setBounds(590, 140, 200, 40);
+		bBombero.setBounds(590, 200, 200, 40);
+		bEjecutar.setBounds(246, 60, 100, 23);
+		bFinalizar.setBounds(745, 300, 100, 60);
+		
+		contentPane.add(bNotas);
+		contentPane.add(bPaint);
+		contentPane.add(bBombero);
+		contentPane.add(bArticulos);
+		contentPane.add(bFinalizar);
+		contentPane.add(bEjecutar);
+		contentPane.add(textField);
+		contentPane.add(texto);
+		contentPane.add(list);
+		contentPane.add(textArea1);
+		Runtime runtime = Runtime.getRuntime();
+		bEjecutar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String selected = list.getSelectedValue().toString();
-				
-				list.setSelectedValue(0,true);
-				if (selected.equals("Parque de Bomberos"))
+				textArea1.setText("");
+				String text=textField.getText();
+				try
 				{
-					bBombero.setEnabled(true);
-				proceso.destroy();
-				bBombero.setEnabled(true);
-				int index = list.getSelectedIndex();
-		 		listModel.remove(index);
+					Process process = runtime.exec("cmd /c "+text);
+					InputStream is = process.getInputStream();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader br = new BufferedReader(isr);
+					String line;
+					while ((line = br.readLine()) != null)
+					{
+						textArea1.append(line+"\n");
+					}
+					is.close();
+				}
+				catch (IOException e1)
+				{
+					System.err.println("Introduzca algún comando");
+					System.exit(-1);
 				}
 			}
-			});
-	} catch (IOException e1) {
-		e1.printStackTrace();
+		});
+
+		bNotas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Process proceso = Runtime.getRuntime().exec("notepad.exe");
+					long pid = proceso.pid();      
+					listModel.addElement("Notas "+ pid);
+					bNotas.setEnabled(false);
+					list.setSelectedValue("Notas "+ pid,true);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		bPaint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Process proceso =Runtime.getRuntime().exec("mspaint.exe");
+					long pid = proceso.pid();      
+					listModel.addElement("Paint "+ pid);
+					bPaint.setEnabled(false);
+					list.setSelectedValue("Paint "+ pid,true);
+				} catch (IOException e1) {
+
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		bArticulos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Process proceso =runtime.exec("java -jar \"C:\\Users\\migue\\Desktop\\VentanaPrincipal.jar");
+					long pid = proceso.pid();      
+					listModel.addElement("Articulos "+ pid);
+					list.setSelectedValue("Articulos "+ pid,true);
+					bArticulos.setEnabled(false);
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		bBombero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Process proceso =runtime.exec("java -jar \"C:\\Users\\migue\\Desktop\\MenuPrincipal.jar");
+					long pid = proceso.pid();      
+					listModel.addElement("Bomberos "+ pid);
+					list.setSelectedValue("Bomberos "+ pid,true);
+				
+					bBombero.setEnabled(false);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		bFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String selected = list.getSelectedValue().toString();
+					int n = selected.lastIndexOf(" ");
+					String pid;
+					pid = selected.substring(n,selected.length());
+					String nombreProceso = selected.substring(0,n);
+					list.setSelectedValue(0,true);
+					
+					if (nombreProceso.equals("Notas")) {
+						try {
+							runtime.exec("taskkill /F /PID "+pid);
+
+						} catch (IOException e1) {
+
+							e1.printStackTrace();
+						}
+						int index = list.getSelectedIndex();
+						listModel.remove(index);
+						bNotas.setEnabled(true);
+					}
+					if (nombreProceso.equals("Paint")) {
+						try {
+							runtime.exec("taskkill /F /PID "+pid);
+						} catch (IOException e1) {
+
+							e1.printStackTrace();
+						}
+						int index = list.getSelectedIndex();
+						listModel.remove(index);
+						bPaint.setEnabled(true);
+					}
+					if (nombreProceso.equals("Articulos")) {
+						try {
+							runtime.exec("taskkill /F /PID "+pid);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						int index = list.getSelectedIndex();
+						listModel.remove(index);
+						bArticulos.setEnabled(true);
+					}
+					if (nombreProceso.equals("Bomberos")) {
+						try {
+							runtime.exec("taskkill /F /PID "+pid);
+						} catch (IOException e1) {
+
+							e1.printStackTrace();
+						}
+						int index = list.getSelectedIndex();
+						listModel.remove(index);
+						bBombero.setEnabled(true);
+					}
+				}
+				catch(java.lang.NullPointerException r1) {
+					System.out.println("Seleccione algo.");
+				}
+			}
+		});
 	}
-}
-});
-
-
-bFinalizar.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-	
-	String selected = list.getSelectedValue().toString();
-	
-	list.setSelectedValue(0,true);
-	if (selected.equals("Paint")) {
-    	 String cmd = "taskkill /IM mspaint.exe";
-
- 		try {
- 			Runtime.getRuntime().exec(cmd);
-
-
-
-
-
- 		
- 		} catch (IOException e1) {
-
- 			e1.printStackTrace();
- 		}
- 		int index = list.getSelectedIndex();
- 		listModel.remove(index);
-    	 bPaint.setEnabled(true);
-    	 }
-	
-	
-	
-     if (selected.equals("Notas")) {
-    	 String cmd = "taskkill /IM notepad.exe";
-
- 		try {
- 			Runtime.getRuntime().exec(cmd);
-
-
-
-
-
- 		
- 		} catch (IOException e1) {
-
- 			e1.printStackTrace();
- 		}
- 		int index = list.getSelectedIndex();
- 		listModel.remove(index);
-    	 bNotas.setEnabled(true);
-    	 
-    	 }
-     
-     if (selected.equals("Juego")) {
-    	 String cmd = "";
-
- 		try {
- 			Runtime.getRuntime().exec(cmd);
- 		
- 		} catch (IOException e1) {
-
- 			e1.printStackTrace();
- 		}
- 		int index = list.getSelectedIndex();
- 		listModel.remove(index);
-    	 bBombero.setEnabled(true);
-    	 
-    	 }
-     
-     
-    
-     
-     
-}
-});
-
-
-}
-
-
 }
